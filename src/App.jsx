@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react'
 import './App.css'
 import { socket } from './socket'
+import Map from './components/Map/Map'
 
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
@@ -27,6 +28,8 @@ function App() {
     socket.on('disconnect', onDisconnect);
     socket.on('initial_state', onStateUpdate);
     socket.on('game_state_update', onStateUpdate);
+    // Also listen for regular updates if the server sends them
+    socket.on('update_state', onStateUpdate);
 
     // If already connected when mounting
     if (socket.connected) {
@@ -38,33 +41,26 @@ function App() {
       socket.off('disconnect', onDisconnect);
       socket.off('initial_state', onStateUpdate);
       socket.off('game_state_update', onStateUpdate);
+      socket.off('update_state', onStateUpdate);
     };
   }, []);
 
   return (
     <div className="app">
-      <h1>Pandemic Virtual</h1>
-      
-      <div className="status-bar">
-        Server Status: {isConnected ? 'Connected ✅' : 'Disconnected ❌'}
-      </div>
+      <header className="status-bar">
+        <h1>Pandemic Virtual</h1>
+        <div className="status-item">Status: {isConnected ? 'Connected ✅' : 'Disconnected ❌'}</div>
+        {gameState && (
+          <>
+            <div className="status-item">Outbreaks: {gameState.outbreakCounter}</div>
+            <div className="status-item">Infection Rate: {gameState.infectionRateIndex}</div>
+          </>
+        )}
+      </header>
 
-      {gameState ? (
-        <div className="game-info">
-          <h2>Game State</h2>
-          <p>Outbreak Level: {gameState.outbreakCounter}</p>
-          <p>Infection Rate Index: {gameState.infectionRateIndex}</p>
-          <p>Players Connected: {Object.keys(gameState.players).length}</p>
-          <p>Cities: {Object.keys(gameState.cities).length}</p>
-          
-          <h3>Raw Data (Preview)</h3>
-          <pre style={{textAlign: 'left', background: '#333', padding: '10px', borderRadius: '5px', overflow: 'auto', maxHeight: '300px'}}>
-            {JSON.stringify(gameState, null, 2)}
-          </pre>
-        </div>
-      ) : (
-        <p>Loading game state...</p>
-      )}
+      <main className="game-board">
+        <Map gameState={gameState} />
+      </main>
     </div>
   )
 }
