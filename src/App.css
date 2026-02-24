@@ -1,16 +1,8 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
-}
-
 .app {
   display: flex;
   flex-direction: column;
   height: 100vh;
-  width: 100vw;
-  overflow: hidden;
+  width: 100%;
 }
 
 .status-bar {
@@ -18,57 +10,102 @@
   justify-content: space-between;
   align-items: center;
   padding: 10px 20px;
-  background-color: #333;
+  background: #222;
   color: white;
-  height: 60px;
 }
 
-.status-item {
-  margin: 0 10px;
+.status-group {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.game-layout {
+  display: flex;
+  flex: 1;
+  overflow: hidden;
 }
 
 .game-board {
-  flex: 1;
+  flex: 3;
+  padding: 10px;
+  background: #1a1a1a;
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: #222;
-  overflow: hidden;
   position: relative;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.controls-panel {
+  flex: 1;
+  min-width: 300px;
+  background: #2a2a2a;
+  padding: 20px;
+  border-left: 1px solid #444;
+  overflow-y: auto;
+  color: #eee;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.player-info {
+  margin-bottom: 20px;
+  border-bottom: 1px solid #444;
+  padding-bottom: 20px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.card-list {
+  list-style: none;
+  padding: 0;
 }
 
 .card {
-  padding: 2em;
+  padding: 5px 10px;
+  margin: 5px 0;
+  border-radius: 4px;
+  background: #333;
+  border-left-width: 5px;
+  border-left-style: solid;
+}
+.card.blue { border-left-color: #007bff; }
+.card.yellow { border-left-color: #ffc107; }
+.card.black { border-left-color: #343a40; }
+.card.red { border-left-color: #dc3545; }
+
+.action-buttons button {
+  display: block;
+  width: 100%;
+  margin-bottom: 10px;
+  padding: 10px;
+  border: 1px solid #444;
+  background: #333;
+  color: white;
+  cursor: pointer;
+  text-align: left;
+  border-radius: 4px;
 }
 
-.read-the-docs {
-  color: #888;
+.action-buttons button:hover {
+  background: #444;
+}
+
+.action-buttons button.active {
+  background: #0056b3;
+  border-color: #007bff;
+  font-weight: bold;
+}
+
+.error-message {
+  color: #ff6b6b;
+  font-weight: bold;
+  animation: flash 0.5s;
+}
+
+@keyframes flash {
+    0% { opacity: 0; }
+    50% { opacity: 1; }
+    100% { opacity: 1; }
+}
+
+.loading {
+    color: white;
+    font-size: 1.5em;
 }

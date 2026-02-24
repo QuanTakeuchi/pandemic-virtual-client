@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import citiesData from '../../../../shared/cities.json';
 import './Map.css';
 
-const Map = ({ gameState }) => {
+const Map = ({ gameState, onCityClick }) => {
     // Process cities data to prepare for rendering
     const { cities, connections } = useMemo(() => {
         const cityList = Object.entries(citiesData).map(([name, data]) => ({
@@ -41,7 +41,6 @@ const Map = ({ gameState }) => {
         const cubeElements = [];
         let index = 0;
 
-        // Colors mapping to hex if needed, or rely on CSS classes/standard names
         const colorMap = {
             blue: '#007bff',
             yellow: '#ffc107',
@@ -51,10 +50,8 @@ const Map = ({ gameState }) => {
 
         Object.entries(cubes).forEach(([color, count]) => {
             for (let i = 0; i < count; i++) {
-                // Determine offset based on index (stacking or grid)
-                // Grid of 2x2 centered roughly
                 const offsetX = (index % 2) * (cubeSize + 1) - cubeSize; 
-                const offsetY = Math.floor(index / 2) * (cubeSize + 1) - cubeSize - 12; // Above the city
+                const offsetY = Math.floor(index / 2) * (cubeSize + 1) - cubeSize - 12; 
                 
                 cubeElements.push(
                     <rect
@@ -79,7 +76,6 @@ const Map = ({ gameState }) => {
     const renderStation = (cityName) => {
         if (!gameState || !gameState.researchStations || !gameState.researchStations.includes(cityName)) return null;
         const { x, y } = citiesData[cityName];
-        // Draw a simple house shape (pentagon)
         return (
             <path
                 d={`M${x},${y+8} L${x+6},${y+14} L${x+6},${y+20} L${x-6},${y+20} L${x-6},${y+14} Z`}
@@ -98,10 +94,8 @@ const Map = ({ gameState }) => {
         
         return playersHere.map((player, idx) => {
             const { x, y } = citiesData[cityName];
-            // Stack players horizontally
             const offset = (idx * 10) - ((playersHere.length - 1) * 5); 
             
-            // Random color generator based on ID if role color not available
             const playerColor = player.role === 'Medic' ? '#fd7e14' : 
                                 player.role === 'Researcher' ? '#6f42c1' :
                                 `hsl(${parseInt(player.id.slice(-3), 16) % 360}, 70%, 50%)`;
@@ -115,7 +109,6 @@ const Map = ({ gameState }) => {
                         strokeWidth="2"
                         className="player-pawn"
                     />
-                    {/* Tiny simplified pawn shape could go here instead of circle */}
                 </g>
             );
         });
@@ -124,7 +117,6 @@ const Map = ({ gameState }) => {
     return (
         <div className="map-container">
             <svg viewBox="0 0 1000 500" className="world-map">
-                {/* Connections Layer */}
                 <g className="connections">
                     {connections.map(conn => (
                         <line
@@ -138,10 +130,14 @@ const Map = ({ gameState }) => {
                     ))}
                 </g>
 
-                {/* Cities Layer */}
                 <g className="cities">
                     {cities.map(city => (
-                        <g key={city.name} className={`city-group ${city.color}`}>
+                        <g 
+                            key={city.name} 
+                            className={`city-group ${city.color}`}
+                            onClick={() => onCityClick && onCityClick(city.name)}
+                            style={{ cursor: 'pointer' }}
+                        >
                             <circle
                                 cx={city.x}
                                 cy={city.y}
@@ -150,14 +146,13 @@ const Map = ({ gameState }) => {
                             />
                             <text
                                 x={city.x}
-                                y={city.y + 15} // Below the city
+                                y={city.y + 15}
                                 textAnchor="middle"
                                 className="city-label"
                             >
                                 {city.name}
                             </text>
 
-                            {/* Game Objects */}
                             {renderStation(city.name)}
                             {renderCubes(city.name)}
                             {renderPlayers(city.name)}
