@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react'
 import './App.css'
 import { socket } from './socket'
 import Map from './components/Map/Map'
+import PlayerHand from './components/PlayerHand/PlayerHand'
 
 function App() {
   const [isConnected, setIsConnected] = useState(socket.connected);
@@ -61,6 +62,20 @@ function App() {
       socket.emit('player_move', action);
   };
 
+  const handleEndTurn = () => {
+    socket.emit('end_turn');
+  };
+
+  const handleCardClick = (card) => {
+    if (myPlayer?.mustDiscard) {
+      if (confirm(`Discard ${card.name}?`)) {
+        socket.emit('discard_card', card.name);
+      }
+    } else {
+      console.log('Card clicked:', card);
+    }
+  };
+
   const myPlayer = gameState?.players?.[socket.id];
 
   return (
@@ -76,7 +91,16 @@ function App() {
       <div className="game-layout">
         <main className="game-board">
             {gameState ? (
-                <Map gameState={gameState} onCityClick={handleCityClick} />
+                <>
+                    <Map gameState={gameState} onCityClick={handleCityClick} />
+                    {myPlayer && (
+                        <PlayerHand 
+                            hand={myPlayer.hand} 
+                            onCardClick={handleCardClick}
+                            mustDiscard={myPlayer.mustDiscard}
+                        />
+                    )}
+                </>
             ) : (
                 <div className="loading">Loading Game State...</div>
             )}
@@ -88,19 +112,7 @@ function App() {
                     <h2>My Player</h2>
                     <p><strong>Role:</strong> {myPlayer.role || 'Unassigned'}</p>
                     <p><strong>Location:</strong> {myPlayer.location}</p>
-                    
-                    <div className="hand">
-                        <h3>Hand ({myPlayer.hand.length})</h3>
-                        {myPlayer.hand.length === 0 ? <p>No cards</p> : (
-                            <ul className="card-list">
-                                {myPlayer.hand.map((card, i) => (
-                                    <li key={i} className={`card ${card.color}`}>
-                                        {card.name}
-                                    </li>
-                                ))}
-                            </ul>
-                        )}
-                    </div>
+                    {/* Hand removed from here, moved to PlayerHand component */}
                 </div>
             ) : (
                 <p>Waiting for player data...</p>
@@ -134,6 +146,17 @@ function App() {
                         Charter Flight
                     </button>
                 </div>
+                
+                <div className="turn-controls">
+                    <button 
+                        className="end-turn-btn"
+                        onClick={handleEndTurn}
+                        disabled={myPlayer?.mustDiscard} 
+                    >
+                        {myPlayer?.mustDiscard ? 'Must Discard Cards' : 'End Turn'}
+                    </button>
+                </div>
+
                 <div className="action-help">
                     <p>
                     {selectedAction === 'drive' && "Click an adjacent city (connected by a line)."}

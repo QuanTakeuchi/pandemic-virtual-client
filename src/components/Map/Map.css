@@ -10,8 +10,8 @@
 
 .world-map {
     width: 100%;
-    height: auto;
-    max-width: 1200px;
+    height: 100%;
+    object-fit: contain;
 }
 
 .connections {

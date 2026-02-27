@@ -1,0 +1,66 @@
+.player-hand {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(0, 0, 0, 0.7);
+    padding: 10px;
+    border-radius: 10px;
+    z-index: 100;
+    max-width: 90%;
+    overflow-x: auto;
+}
+
+.player-hand.must-discard {
+    background: rgba(220, 53, 69, 0.9);
+}
+
+.discard-message {
+    color: white;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.cards-container {
+    display: flex;
+    gap: 10px;
+}
+
+.hand-card {
+    width: 100px;
+    height: 140px;
+    background: #333;
+    border: 2px solid #555;
+    border-radius: 5px;
+    padding: 5px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    text-align: center;
+}
+
+.hand-card:hover {
+    transform: translateY(-10px);
+}
+
+.hand-card.blue { border-color: #007bff; background: #0056b3; }
+.hand-card.yellow { border-color: #ffc107; background: #e0a800; color: black; }
+.hand-card.black { border-color: #6c757d; background: #343a40; }
+.hand-card.red { border-color: #dc3545; background: #c82333; }
+.hand-card.event { border-color: #28a745; background: #218838; }
+
+.card-top {
+    font-weight: bold;
+}
+
+.card-desc {
+    font-size: 0.7rem;
+    margin-top: 5px;
+}
