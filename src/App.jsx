@@ -91,16 +91,7 @@ function App() {
       <div className="game-layout">
         <main className="game-board">
             {gameState ? (
-                <>
-                    <Map gameState={gameState} onCityClick={handleCityClick} />
-                    {myPlayer && (
-                        <PlayerHand 
-                            hand={myPlayer.hand} 
-                            onCardClick={handleCardClick}
-                            mustDiscard={myPlayer.mustDiscard}
-                        />
-                    )}
-                </>
+                <Map gameState={gameState} onCityClick={handleCityClick} />
             ) : (
                 <div className="loading">Loading Game State...</div>
             )}
@@ -112,7 +103,6 @@ function App() {
                     <h2>My Player</h2>
                     <p><strong>Role:</strong> {myPlayer.role || 'Unassigned'}</p>
                     <p><strong>Location:</strong> {myPlayer.location}</p>
-                    {/* Hand removed from here, moved to PlayerHand component */}
                 </div>
             ) : (
                 <p>Waiting for player data...</p>
@@ -167,6 +157,16 @@ function App() {
                 </div>
             </div>
         </aside>
+      </div>
+      
+      <div className="player-hand-panel">
+          {myPlayer && (
+              <PlayerHand 
+                  hand={myPlayer.hand} 
+                  onCardClick={handleCardClick}
+                  mustDiscard={myPlayer.mustDiscard}
+              />
+          )}
       </div>
     </div>
   )

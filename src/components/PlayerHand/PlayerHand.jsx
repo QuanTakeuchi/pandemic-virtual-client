@@ -3,17 +3,22 @@ import './PlayerHand.css';
 
 const PlayerHand = ({ hand, onCardClick, mustDiscard }) => {
     return (
-        <div className={`player-hand ${mustDiscard ? 'must-discard' : ''}`}>
-            {mustDiscard && <div className="discard-message">Hand Limit Reached! Discard {hand.length - 7} card(s).</div>}
-            <div className="cards-container">
-                {hand.map((card, i) => (
+        <div className={`player-hand-container ${mustDiscard ? 'discard-mode' : ''}`}>
+            {mustDiscard && (
+                <div className="discard-overlay">
+                    ⚠️ Hand Limit Reached! Click a card to discard.
+                </div>
+            )}
+            <div className="hand-cards">
+                {hand.map((card, index) => (
                     <div 
-                        key={i} 
+                        key={`${card.name}-${index}`} 
                         className={`hand-card ${card.color || 'event'} ${card.type}`}
                         onClick={() => onCardClick(card)}
+                        title={card.description || card.name}
                     >
-                        <div className="card-top">{card.name}</div>
-                        {card.description && <div className="card-desc">{card.description}</div>}
+                        <div className="card-header">{card.name}</div>
+                        {card.type === 'event' && <div className="card-desc">{card.description}</div>}
                     </div>
                 ))}
             </div>
