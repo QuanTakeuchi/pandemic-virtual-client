@@ -21,4 +21,4 @@ State is strictly authoritative from the server. The client receives state updat
 Working on Day 8 tasks: Adding game indicators (Infection Rate, Outbreaks, Research Stations, Cures) and overall UI polish.
 
 ## Important LLM Instruction
-Whenever an LLM loads this file into context and makes changes to the package, it must update this AGENTS.md file along with the changes to keep the context accurate and up-to-date.
+Whenever an LLM loads this file into context and makes changes to the package, it must update this AGENTS.md file if there are any major changes to the structure or logic of the code package. If the changes are minor tweaks no need to update the AGENTS.md files

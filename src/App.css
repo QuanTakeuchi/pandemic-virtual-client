@@ -38,6 +38,13 @@
   position: relative;
 }
 
+.left-panel {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  overflow: hidden;
+}
+
 .game-board {
   flex: 1;
   padding: 0;
@@ -50,14 +57,14 @@
 }
 
 .controls-panel {
-  width: 300px;
-  flex: 0 0 200px;
+  width: 20%;
+  flex: 0 0 20%;
   background: #1e1e1e;
-  padding: 10px;
+  padding: 8px;
   border-left: 1px solid #333;
   overflow-y: auto;
   color: #ccc;
-  font-size: 0.75rem;
+  font-size: 0.7rem;
   z-index: 10;
 }
 
@@ -68,9 +75,9 @@
 }
 
 .player-info h2 {
-    font-size: 0.9rem;
+    font-size: 0.8rem;
     color: #fff;
-    margin: 0 0 5px 0;
+    margin: 0 0 4px 0;
 }
 
 .player-info p {
@@ -78,23 +85,23 @@
 }
 
 .actions h3 {
-  font-size: 0.85rem;
-  margin: 10px 0 5px 0;
+  font-size: 0.75rem;
+  margin: 8px 0 4px 0;
   color: #ddd;
 }
 
 .action-buttons button {
   display: block;
   width: 100%;
-  margin-bottom: 5px;
-  padding: 6px 8px;
+  margin-bottom: 4px;
+  padding: 4px 6px;
   border: 1px solid #333;
   background: #2a2a2a;
   color: #ddd;
   cursor: pointer;
   text-align: left;
   border-radius: 3px;
-  font-size: 0.75rem;
+  font-size: 0.65rem;
 }
 
 .action-buttons button:hover {
@@ -109,9 +116,9 @@
 }
 
 .action-help p {
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     color: #888;
-    margin-top: 5px;
+    margin-top: 4px;
     font-style: italic;
 }
 
@@ -124,14 +131,14 @@
 .end-turn-btn {
     display: block;
     width: 100%;
-    padding: 8px;
+    padding: 6px;
     background: #28a745;
     color: white;
     font-weight: bold;
     border: none;
     border-radius: 3px;
     cursor: pointer;
-    font-size: 0.8rem;
+    font-size: 0.7rem;
     text-align: center;
 }
 
