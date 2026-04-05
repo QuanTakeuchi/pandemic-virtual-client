@@ -103,6 +103,7 @@ function App() {
                     <h2>My Player</h2>
                     <p><strong>Role:</strong> {myPlayer.role || 'Unassigned'}</p>
                     <p><strong>Location:</strong> {myPlayer.location}</p>
+                    <p><strong>Actions Left:</strong> {myPlayer.actionsLeft}</p>
                 </div>
             ) : (
                 <p>Waiting for player data...</p>
@@ -135,6 +136,41 @@ function App() {
                     >
                         Charter Flight
                     </button>
+                </div>
+
+                <h3>Special Actions</h3>
+                <div className="action-buttons">
+                    <button onClick={() => socket.emit('build_station')}>
+                        Build Research Station
+                    </button>
+                    
+                    {/* Treat Disease Buttons */}
+                    {myPlayer && gameState.cities[myPlayer.location] && 
+                        Object.entries(gameState.cities[myPlayer.location].cubes)
+                            .filter(([color, count]) => count > 0)
+                            .map(([color, count]) => (
+                                <button 
+                                    key={`treat-${color}`}
+                                    onClick={() => socket.emit('treat_disease', color)}
+                                    style={{ borderColor: color, color: color === 'yellow' ? '#d4a017' : color }}
+                                >
+                                    Treat {color} ({count})
+                                </button>
+                            ))
+                    }
+
+                    {/* Cure Buttons - Simplified Check */}
+                    {['blue', 'yellow', 'black', 'red'].map(color => (
+                        !gameState?.cures[color] && (
+                            <button 
+                                key={`cure-${color}`}
+                                onClick={() => socket.emit('discover_cure', color)}
+                                style={{ borderColor: color }}
+                            >
+                                Discover {color} Cure
+                            </button>
+                        )
+                    ))}
                 </div>
                 
                 <div className="turn-controls">
